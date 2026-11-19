@@ -1,4 +1,6 @@
 // Gives access to MonoBehaviour
+
+using System;
 using UnityEngine;
 // Gives access to TMP_Text
 using TMPro;
@@ -8,6 +10,16 @@ public class UIManager : MonoBehaviour
 {
     // The text that shows the score
     [SerializeField] private TMP_Text scoreText;
+
+    [SerializeField] private TMP_Text healthText;
+
+    [SerializeField] private Player Player;
+
+    private void Start()
+    {
+        Player.GetHealth().OnHealthChanged += updateHealth;
+        updateHealth(Player.GetHealth().GetCurrentHealth());
+    }
 
     // Runs when this object turns on, before Start
     private void OnEnable()
@@ -28,5 +40,10 @@ public class UIManager : MonoBehaviour
     {
         // Show it
         scoreText.text = "Score: " + points;
+    }
+    
+    private void updateHealth(int health)
+    {
+        healthText.text = "Health: " + health;
     }
 }

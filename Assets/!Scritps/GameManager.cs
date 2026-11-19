@@ -87,12 +87,19 @@ public class GameManager : MonoBehaviour
     // Creates one random enemy at a spawn point and adds it to the list
     private void SpawnEnemy(Transform spawnPoint)
     {
-        // Pick a random prefab: Bee or Butterfly
-        Enemy prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        // Make a copy of it at the spawn point, with no rotation
-        Enemy newEnemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-        // Remember it, so it can be sent diving
-        enemies.Add(newEnemy);
+        try
+        {
+            // Pick a random prefab: Bee or Butterfly
+            Enemy prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            // Make a copy of it at the spawn point, with no rotation
+            Enemy newEnemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+            // Remember it, so it can be sent diving
+            enemies.Add(newEnemy);
+        }
+        catch(System.Exception e)
+        {
+            Debug.Log("Couldn't Spawn the enemy, Check Game manager");
+        }
     }
 
     // Picks one living enemy and starts its dive

@@ -1,15 +1,20 @@
-// A plain C# class: keeps track of one ship's health
-// Not a MonoBehaviour, so it is created with new inside Ship
+using System;
+    
 public class Health
 {
     // Health right now; private so only Health can change it
     private int currentHealth;
+    
+    private int maxHealth;
 
+    public event Action <int> OnHealthChanged; 
+    
     // Constructor: runs when new Health(...) is called
     public Health(int startingHealth)
     {
         // Start at the health that was passed in
         currentHealth = startingHealth;
+        maxHealth = currentHealth;
     }
 
     // Lowers health by the amount passed in
@@ -22,6 +27,19 @@ public class Health
         {
             currentHealth = 0;
         }
+        OnHealthChanged?.Invoke(currentHealth);
+    }
+
+    public void addHealth(int amount)
+    {
+        //adds Amount to current health
+        currentHealth += amount;
+        if (currentHealth > maxHealth) ;
+        {
+            currentHealth = maxHealth;
+        }
+        OnHealthChanged?.Invoke(currentHealth);
+
     }
 
     // Lets other classes read the value without being able to change it
